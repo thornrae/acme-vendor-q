@@ -13,6 +13,8 @@ require('dotenv').config();
 
 let storeName = process.env.STORE_NAME;
 
+//emit get all --> in caps will do the broadcast + call that function which will be in the class queue. 
+
 setInterval( () => {
   let address = (faker.fake("{{address.streetAddress}} {{address.city}}, {{address.state}}  {{address.zipCode}}"));
   let customerName = (faker.fake("{{name.lastName}}, {{name.firstName}}"));
@@ -33,5 +35,13 @@ capsConnection.on('delivered', thankYou);
 
 
 function thankYou(payload) {
+  console.log('thank you payload..', payload)
   console.log(`VENDOR: thank you for ${payload.storeName} delivery of order #: ${payload.orderId}`);
+
+  capsConnection.emit('received', payload)
+
 }
+
+//when to emit received
+//
+
